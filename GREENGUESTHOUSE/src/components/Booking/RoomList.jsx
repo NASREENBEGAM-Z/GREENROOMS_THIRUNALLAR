@@ -10,38 +10,38 @@ const RoomList = ({ onSelectRoom }) => {
     const rooms = [
         {
             id: 1,
-            name: "DELUXE - TWO DOUBLE BED (A/C)",
+            name: "FAMILY SUITE (A/C)",
             bed: 2,
             max: 6,
             view: "Street (Nala Theertham)",
-            price: 3000,
+            price: 1799,
             image: "https://ik.imagekit.io/2rlgs5ipz/GREENGUESTHOUSE/doublecot_ac?updatedAt=1750576914374"
         },
         {
             id: 2,
-            name: "DELUXE - ONE DOUBLE BED (A/C)",
-            bed: 1,
-            max: 3,
+            name: "FAMILY SUITE (NON A/C)",
+            bed: 2,
+            max: 6,
             view: "Street (Nala Theertham)",
-            price: 2000,
+            price: 1799,
             image: "https://ik.imagekit.io/2rlgs5ipz/GREENGUESTHOUSE/doublecot2?updatedAt=1750576916914"
         },
         {
             id: 3,
-            name: "DELUXE - TWO DOUBLE BED (NON A/C)",
-            bed: 2,
-            max: 6,
+            name: "SINGLE COT (A/C)",
+            bed: 1,
+            max: '3 adults + 2 children',
             view: "Garden View",
-            price: 1800,
+            price: 999,
             image: "https://ik.imagekit.io/2rlgs5ipz/GREENGUESTHOUSE/DOUBLECOT?updatedAt=1750576330117"
         },
         {
             id: 4,
-            name: "DELUXE - ONE DOUBLE BED (NON A/C)",
+            name: "SINGLE COT (NON A/C)",
             bed: 1,
-            max: 3,
+            max: '3 adults + 2 children',
             view: "Garden View",
-            price: 1500,
+            price: 999,
             image: "https://ik.imagekit.io/2rlgs5ipz/GREENGUESTHOUSE/family?updatedAt=1750590730271"
         },
     ];
@@ -79,7 +79,7 @@ const RoomList = ({ onSelectRoom }) => {
                                 <h3 className="text-xl font-bold">{room.name}</h3>
                                 <div className="flex items-center text-gray-400 mt-2 space-x-4 border-b border-gray-700 pb-2">
                                     <span>Bed {room.bed}</span>
-                                    <span>Max {room.max} People</span>
+                                    <span>Max {typeof room.max === 'string' ? room.max : (room.max === 6 ? '6 adults + children infinite' : room.max + ' Adult')}</span>
                                     <span>View {room.view}</span>
                                 </div>
                             </div>
@@ -90,7 +90,7 @@ const RoomList = ({ onSelectRoom }) => {
                                 <div>
                                     <p className="text-sm text-gray-400">Start From</p>
                                     <p className="text-2xl font-bold text-yellow-500">
-                                        ₹{room.price.toLocaleString()}<span className="text-base font-normal text-gray-400"> / Night</span>
+                                        ₹{room.price.toLocaleString()}<span className="text-base font-normal text-gray-400"> / Night (Mon-Thurs)</span>
                                     </p>
                                     <p className="text-xs text-gray-500">* view price breakdown</p>
                                 </div>
@@ -105,6 +105,9 @@ const RoomList = ({ onSelectRoom }) => {
                     </div>
                 </div>
             ))}
+            <div className="text-center mt-8">
+                <div className="text-red-600 font-semibold text-sm">For Friday to Sunday booking, contact us</div>
+            </div>
         </div>
     );
 };

@@ -1,9 +1,11 @@
 import React from 'react';
-import { FaPhone, FaEnvelope, FaFacebook, FaWhatsapp } from 'react-icons/fa';
+import { FaPhone, FaEnvelope, FaInstagram, FaWhatsapp } from 'react-icons/fa';
 
 const Footer = () => {
     const mapEmbedUrl = "https://maps.google.com/maps?q=Green%20guest%20house%20hotel%20and%20rooms%2C%20Thirunallar&t=&z=17&ie=UTF8&iwloc=&output=embed";
-    const whatsappLink = "https://wa.me/919791141742";
+    const whatsappLink = "https://wa.me/918667853501";
+    const phoneNumber = "tel:+918667853501";
+    const instagramLink = "https://www.instagram.com/greenrooms.thirunallar/";
 
     return (
         <>
@@ -33,15 +35,15 @@ const Footer = () => {
                             <ul className="space-y-4">
                                 <li className="flex items-center">
                                     <FaPhone className="w-5 h-5 mr-3 text-white" />
-                                    <span className="text-green-100">+91-9791141742, +91-8778652900</span>
+                                    <span className="text-green-100">+91-8667853501</span>
                                 </li>
                                 <li className="flex items-center">
                                     <FaEnvelope className="w-5 h-5 mr-3 text-white" />
-                                    <a href="mailto:greenguesthouse.thirunallar@gmail.com" className="hover:text-white text-green-100">greenguesthouse.thirunallar@gmail.com</a>
+                                    <a href="mailto:greenrooms.thirunallar@gmail.com" className="hover:text-white text-green-100">greenrooms.thirunallar@gmail.com</a>
                                 </li>
                                 <li className="flex items-center">
-                                    <FaFacebook className="w-5 h-5 mr-3 text-white" />
-                                    <a href="#" className="hover:text-white text-green-100">facebook.com/greenguesthouse</a>
+                                    <FaInstagram className="w-5 h-5 mr-3 text-white" />
+                                    <a href={instagramLink} target="_blank" rel="noopener noreferrer" className="hover:text-white text-green-100">instagram.com/greenrooms.thirunallar</a>
                                 </li>
                             </ul>
                         </div>
@@ -65,6 +67,15 @@ const Footer = () => {
                 </div>
             </div>
 
+            {/* Floating Phone Button */}
+            <a
+                href={phoneNumber}
+                className="fixed bottom-24 right-5 bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-4 rounded-full shadow-lg flex items-center transition-transform transform hover:scale-110 z-50"
+                style={{ textDecoration: 'none' }}
+            >
+                <FaPhone className="w-6 h-6 mr-2" />
+                <span>Call Us</span>
+            </a>
             {/* Floating WhatsApp Button */}
             <a
                 href={whatsappLink}

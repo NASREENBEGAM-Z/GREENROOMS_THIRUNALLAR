@@ -31,7 +31,7 @@ const Header = () => {
               <div className="flex items-center space-x-3">
                 <img
                   src="https://ik.imagekit.io/2rlgs5ipz/GREENGUESTHOUSE/greenguestlogo?updatedAt=1750590886578"
-                  alt="Green Guest House Logo"
+                  alt="Green Rooms Logo"
                   className="h-10 w-10 md:h-12 md:w-12 rounded-full bg-white p-1"
                   style={{
                     objectFit: 'cover',
@@ -43,7 +43,7 @@ const Header = () => {
                   }}
                 />
                 <div>
-                  <h1 className="text-xl md:text-2xl font-serif font-bold text-white leading-tight">Green Guest House</h1>
+                  <h1 className="text-xl md:text-2xl font-serif font-bold text-white leading-tight">Green Rooms</h1>
                   <p className="text-xs md:text-sm text-gray-300 leading-tight">Thirunallar</p>
                 </div>
               </div>

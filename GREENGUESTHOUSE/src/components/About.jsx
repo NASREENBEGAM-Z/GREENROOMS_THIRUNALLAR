@@ -50,17 +50,17 @@ const About = () => {
   return (
     <section id="about" className="py-20 bg-gray-50">
       <div className="container mx-auto px-4">
-        <h2 className="section-title">About Green Guest House</h2>
+        <h2 className="section-title">About Green Rooms</h2>
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div>
             <h3 className="text-2xl font-bold text-gray-800 mb-4">Your Home Away From Home</h3>
             <p className="text-gray-600 mb-6">
-              Green Guest House is located in the holy town of Thirunallar, just a 2-minute walk from the famous
+              Green Rooms is located in the holy town of Thirunallar, just a 2-minute walk from the famous
               Saneeswarar Temple. We provide comfortable and affordable accommodation for devotees and leisure
               travelers alike.
             </p>
             <p className="text-gray-600 mb-6">
-              Our guest house offers modern amenities with traditional hospitality, ensuring your stay is both
+              Our hotel offers modern amenities with traditional hospitality, ensuring your stay is both
               comfortable and memorable. Whether you're here for spiritual purposes or leisure, we make sure
               you feel at home.
             </p>

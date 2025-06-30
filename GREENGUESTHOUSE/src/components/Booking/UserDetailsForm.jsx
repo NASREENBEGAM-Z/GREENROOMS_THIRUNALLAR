@@ -99,12 +99,10 @@ const UserDetailsForm = ({ onSubmit, onBack }) => {
             setErrors(validationErrors);
             return;
         }
-
         if (!isEmailVerified || !isPhoneVerified) {
             alert('Please verify both email and phone number before submitting.');
             return;
         }
-
         setErrors({});
         onSubmit(formData);
     };
@@ -205,14 +203,9 @@ const UserDetailsForm = ({ onSubmit, onBack }) => {
                         <button type="button" className="bg-yellow-500 text-gray-900 font-bold p-3 rounded-r-lg hover:bg-yellow-400 transition-colors duration-300">Apply</button>
                     </div>
                 </div>
-                <div className="pt-4">
-                    <button
-                        type="submit"
-                        disabled={!isEmailVerified || !isPhoneVerified}
-                        className="w-full bg-gray-300 text-gray-900 font-bold py-3 px-4 rounded hover:bg-white transition-colors duration-300 disabled:bg-gray-500 disabled:cursor-not-allowed"
-                    >
-                        Book now by email and we will contact you back.
-                    </button>
+                <div className="flex justify-between mt-8">
+                    <button type="button" onClick={onBack} className="btn-secondary">Back</button>
+                    <button type="submit" className="btn-primary">Submit</button>
                 </div>
             </form>
         </div>

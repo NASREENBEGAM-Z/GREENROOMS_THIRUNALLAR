@@ -1,6 +1,6 @@
-# Green Guest House - Hotel Booking Web App
+# Green Rooms - Hotel Booking Web App
 
-A modern, responsive hotel booking website for Green Guest House located in Thirunallar, Tamil Nadu. This web application is built with React, Vite, and Tailwind CSS.
+A modern, responsive hotel booking website for Green Rooms located in Thirunallar, Tamil Nadu. This web application is built with React, Vite, and Tailwind CSS.
 
 ## Features
 
@@ -141,11 +141,11 @@ All content is easily editable in the `main.jsx` file:
 
 ## License
 
-This project is created for Green Guest House. All rights reserved.
+This project is created for Green Rooms. All rights reserved.
 
 ## Contact
 
 For any questions or support, please contact:
 - Phone: +91-9003769514, +91-9080322029
-- Email: info@greenguesthouse.com
+- Email: info@greenrooms-thirunallar.com
 - Location: Near Saneeswarar Temple, Thirunallar, Tamil Nadu 
