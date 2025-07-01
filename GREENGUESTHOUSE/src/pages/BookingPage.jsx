@@ -132,6 +132,22 @@ const BookingPage = () => {
         }
     };
 
+    const getBookingSummary = (bookingDetails) => {
+        const basePrice = bookingDetails.room?.price || 0;
+        return {
+            basePrice,
+            totalWithGst: basePrice, // Same as base price without GST
+        };
+    };
+
+    const handleAdultsChange = (e) => {
+        setBookingDetails(prev => ({ ...prev, adults: parseInt(e.target.value) }));
+    };
+
+    const handleChildrenChange = (e) => {
+        setBookingDetails(prev => ({ ...prev, children: parseInt(e.target.value) }));
+    };
+
     // The stepper now has 4 steps
     const steps = ['Choose Date', 'Choose Room', 'Make a Reservation', 'Confirmation'];
 
@@ -148,13 +164,21 @@ const BookingPage = () => {
                             onChangeRoom={handleResetToRoomSelection}
                             currentStep={currentStep}
                             onDateChange={handleDateChange}
+                            onAdultsChange={handleAdultsChange}
+                            onChildrenChange={handleChildrenChange}
                         />
                     </div>
                     <div className="lg:col-span-2">
                         {currentStep === 1 && <RoomList onSelectRoom={handleRoomSelect} />}
                         {currentStep === 2 && <RoomSelectionComplete onNext={handleNextStep} />}
                         {currentStep === 3 && <UserDetailsForm onSubmit={handleUserDetailsSubmit} onBack={handlePrevStep} />}
-                        {currentStep === 4 && <Confirmation bookingDetails={bookingDetails} onBack={handlePrevStep} />}
+                        {currentStep === 4 && (
+                            <Confirmation
+                                bookingDetails={bookingDetails}
+                                onBack={handlePrevStep}
+                                summary={getBookingSummary(bookingDetails)}
+                            />
+                        )}
                     </div>
                 </div>
             </main>

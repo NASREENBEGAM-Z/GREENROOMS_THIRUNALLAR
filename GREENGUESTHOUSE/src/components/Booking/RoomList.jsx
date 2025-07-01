@@ -52,59 +52,62 @@ const RoomList = ({ onSelectRoom }) => {
         setImageErrors(prev => ({ ...prev, [id]: true }));
     }
 
+    const GST_RATE = 0.18;
+    const RAZORPAY_FEE_RATE = 0.02;
+    const RAZORPAY_GST_RATE = 0.18;
+
     return (
         <div className="space-y-8 text-white">
-            {rooms.map(room => (
-                <div key={room.id} className="bg-gray-800 rounded-lg shadow-lg overflow-hidden">
-                    <div className="flex flex-col md:flex-row">
-                        {/* Image */}
-                        <div className="md:w-1/3">
-                            {!imageErrors[room.id] ? (
-                                <img
-                                    src={room.image}
-                                    alt={room.name}
-                                    className="w-full h-48 md:h-full object-cover"
-                                    onError={() => handleImageError(room.id)}
-                                />
-                            ) : (
-                                <div className="w-full h-48 md:h-full bg-gray-700 flex items-center justify-center">
-                                    <span className="text-gray-400">Image not available</span>
-                                </div>
-                            )}
-                        </div>
-
-                        {/* Details */}
-                        <div className="md:w-2/3 p-6 flex flex-col">
-                            <div>
-                                <h3 className="text-xl font-bold">{room.name}</h3>
-                                <div className="flex items-center text-gray-400 mt-2 space-x-4 border-b border-gray-700 pb-2">
-                                    <span>Bed {room.bed}</span>
-                                    <span>Max {typeof room.max === 'string' ? room.max : (room.max === 6 ? '6 adults + children infinite' : room.max + ' Adult')}</span>
-                                    <span>View {room.view}</span>
-                                </div>
+            {rooms.map(room => {
+                return (
+                    <div key={room.id} className="bg-gray-800 rounded-lg shadow-lg overflow-hidden">
+                        <div className="flex flex-col md:flex-row">
+                            {/* Image */}
+                            <div className="md:w-1/3">
+                                {!imageErrors[room.id] ? (
+                                    <img
+                                        src={room.image}
+                                        alt={room.name}
+                                        className="w-full h-48 md:h-full object-cover"
+                                        onError={() => handleImageError(room.id)}
+                                    />
+                                ) : (
+                                    <div className="w-full h-48 md:h-full bg-gray-700 flex items-center justify-center">
+                                        <span className="text-gray-400">Image not available</span>
+                                    </div>
+                                )}
                             </div>
 
-                            <div className="flex-grow"></div>
-
-                            <div className="flex justify-between items-center mt-4">
+                            {/* Details */}
+                            <div className="md:w-2/3 p-6 flex flex-col">
                                 <div>
-                                    <p className="text-sm text-gray-400">Start From</p>
-                                    <p className="text-2xl font-bold text-yellow-500">
-                                        ₹{room.price.toLocaleString()}<span className="text-base font-normal text-gray-400"> / Night (Mon-Thurs)</span>
-                                    </p>
-                                    <p className="text-xs text-gray-500">* view price breakdown</p>
+                                    <h3 className="text-xl font-bold">{room.name}</h3>
+                                    <div className="flex items-center text-gray-400 mt-2 space-x-4 border-b border-gray-700 pb-2">
+                                        <span>Bed {room.bed}</span>
+                                        <span>Max {typeof room.max === 'string' ? room.max : (room.max === 6 ? '6 adults + children infinite' : room.max + ' Adult')}</span>
+                                        <span>View {room.view}</span>
+                                    </div>
                                 </div>
-                                <button
-                                    onClick={() => onSelectRoom(room)}
-                                    className="bg-gray-300 text-gray-900 font-bold py-2 px-4 rounded hover:bg-white transition-colors duration-300"
-                                >
-                                    Select this room
-                                </button>
+
+                                <div className="flex-grow"></div>
+
+                                <div className="flex justify-between items-center mt-4">
+                                    <div>
+                                        <p className="text-sm text-gray-400">Price</p>
+                                        <p className="text-lg font-bold text-yellow-500">₹{room.price.toLocaleString()}</p>
+                                    </div>
+                                    <button
+                                        onClick={() => onSelectRoom({ ...room, totalWithGst: room.price })}
+                                        className="bg-gray-300 text-gray-900 font-bold py-2 px-4 rounded hover:bg-white transition-colors duration-300"
+                                    >
+                                        Select this room
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            ))}
+                );
+            })}
             <div className="text-center mt-8">
                 <div className="text-red-600 font-semibold text-sm">For Friday to Sunday booking, contact us</div>
             </div>

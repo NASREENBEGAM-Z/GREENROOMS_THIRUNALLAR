@@ -36,28 +36,30 @@ const Hero = () => {
         <p className="text-lg mb-8 max-w-2xl mx-auto">
           Located near the sacred Saneeswarar Temple, we provide luxury accommodation at budget-friendly prices
         </p>
-        <form onSubmit={handleSubmit} className="bg-white bg-opacity-90 rounded-lg p-6 flex flex-col md:flex-row items-center justify-center gap-4 max-w-3xl mx-auto shadow-lg">
-          <div>
+        <form onSubmit={handleSubmit} className="bg-white bg-opacity-90 rounded-lg p-6 flex flex-col gap-4 max-w-3xl mx-auto shadow-lg w-full md:grid md:grid-cols-2 lg:flex lg:flex-row lg:items-center lg:justify-center">
+          <div className="w-full">
             <label className="block text-gray-700 font-semibold mb-1">Check In</label>
-            <input type="date" name="checkIn" value={form.checkIn} onChange={handleChange} min={today} className="p-2 rounded border border-gray-300 text-gray-900 bg-white" required />
+            <input type="date" name="checkIn" value={form.checkIn} onChange={handleChange} min={today} className="p-2 rounded border border-gray-300 text-gray-900 bg-white w-full" required />
           </div>
-          <div>
+          <div className="w-full">
             <label className="block text-gray-700 font-semibold mb-1">Check Out</label>
-            <input type="date" name="checkOut" value={form.checkOut} onChange={handleChange} min={form.checkIn} className="p-2 rounded border border-gray-300 text-gray-900 bg-white" required />
+            <input type="date" name="checkOut" value={form.checkOut} onChange={handleChange} min={form.checkIn} className="p-2 rounded border border-gray-300 text-gray-900 bg-white w-full" required />
           </div>
-          <div>
+          <div className="w-full">
             <label className="block text-gray-700 font-semibold mb-1">Adults</label>
-            <select name="adults" value={form.adults} onChange={handleChange} className="p-2 rounded border border-gray-300 text-gray-900 bg-white">
+            <select name="adults" value={form.adults} onChange={handleChange} className="p-2 rounded border border-gray-300 text-gray-900 bg-white w-full">
               {[1, 2, 3, 4, 5, 6].map(n => <option key={n} value={n}>{n}</option>)}
             </select>
           </div>
-          <div>
+          <div className="w-full">
             <label className="block text-gray-700 font-semibold mb-1">Children</label>
-            <select name="children" value={form.children} onChange={handleChange} className="p-2 rounded border border-gray-300 text-gray-900 bg-white">
+            <select name="children" value={form.children} onChange={handleChange} className="p-2 rounded border border-gray-300 text-gray-900 bg-white w-full">
               {[0, 1, 2, 3, 4].map(n => <option key={n} value={n}>{n}</option>)}
             </select>
           </div>
-          <button type="submit" className="btn-primary px-6 py-3 text-lg mt-4 md:mt-6">Check Availability</button>
+          <div className="w-full md:col-span-2 lg:w-auto lg:ml-4 flex items-end">
+            <button type="submit" className="btn-primary w-full lg:w-auto px-6 py-3 text-lg mt-4 md:mt-0">Check Availability</button>
+          </div>
         </form>
       </div>
     </section>

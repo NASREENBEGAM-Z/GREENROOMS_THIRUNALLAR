@@ -8,7 +8,7 @@ const Rooms = () => {
             name: "Family Suite (A/C)",
             description: "Spacious family suite with air conditioning. Limit 6 adults + children infinite.",
             price: "₹1,799",
-            features: ["Air Conditioning", "Family Suite", "Attached Bathroom", "TV", "WiFi", "Limit 6 adults + children infinite"],
+            features: ["Air Conditioning", "Family Suite", "Attached Bathroom", "TV", "WiFi"],
             image: "https://ik.imagekit.io/2rlgs5ipz/GREENGUESTHOUSE/family?updatedAt=1750590730271"
         },
         {
@@ -16,7 +16,7 @@ const Rooms = () => {
             name: "Family Suite (Non A/C)",
             description: "Spacious family suite. Limit 6 adults + children infinite.",
             price: "₹1,799",
-            features: ["Family Suite", "Attached Bathroom", "TV", "WiFi", "Fan", "Limit 6 adults + children infinite"],
+            features: ["Family Suite", "Attached Bathroom", "TV", "WiFi", "Fan"],
             image: "https://ik.imagekit.io/2rlgs5ipz/GREENGUESTHOUSE/doublecot2?updatedAt=1750576916914"
         },
         {
@@ -24,7 +24,7 @@ const Rooms = () => {
             name: "Single Cot (A/C)",
             description: "Cozy single cot room with air conditioning. 3 adults maximum and 2 children.",
             price: "₹999",
-            features: ["Air Conditioning", "Single Cot", "Attached Bathroom", "TV", "WiFi", "3 adults max, 2 children"],
+            features: ["Air Conditioning", "Single Cot", "Attached Bathroom", "TV", "WiFi"],
             image: "https://ik.imagekit.io/2rlgs5ipz/GREENGUESTHOUSE/doublecot_ac?updatedAt=1750576914374"
         },
         {
@@ -32,7 +32,7 @@ const Rooms = () => {
             name: "Single Cot (Non A/C)",
             description: "Comfortable single cot room. 3 adults maximum and 2 children.",
             price: "₹999",
-            features: ["Single Cot", "Attached Bathroom", "TV", "WiFi", "Fan", "3 adults max, 2 children"],
+            features: ["Single Cot", "Attached Bathroom", "TV", "WiFi", "Fan"],
             image: "https://ik.imagekit.io/2rlgs5ipz/GREENGUESTHOUSE/DOUBLECOT?updatedAt=1750576330117"
         }
     ];

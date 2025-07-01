@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ReservationSidebar = ({ bookingDetails, onchangeRoom, currentStep, onDateChange }) => {
+const ReservationSidebar = ({ bookingDetails, onchangeRoom, currentStep, onDateChange, onAdultsChange, onChildrenChange }) => {
     const { checkIn, checkOut, adults, children, room, rooms, totalPrice } = bookingDetails;
     const today = new Date().toISOString().split('T')[0];
 
@@ -93,14 +93,22 @@ const ReservationSidebar = ({ bookingDetails, onchangeRoom, currentStep, onDateC
                     <div className="grid grid-cols-2 gap-4">
                         <div>
                             <label className="block text-sm font-semibold text-gray-400">Adults</label>
-                            <select value={adults} readOnly className="w-full p-2 bg-gray-700 rounded-md focus:outline-none">
-                                <option>{adults}</option>
+                            <select 
+                                value={adults} 
+                                onChange={onAdultsChange}
+                                className="w-full p-2 bg-gray-700 rounded-md focus:outline-none"
+                            >
+                                {[1, 2, 3, 4, 5, 6].map(n => <option key={n} value={n}>{n}</option>)}
                             </select>
                         </div>
                         <div>
                             <label className="block text-sm font-semibold text-gray-400">Children</label>
-                            <select value={children} readOnly className="w-full p-2 bg-gray-700 rounded-md focus:outline-none">
-                                <option>{children}</option>
+                            <select 
+                                value={children} 
+                                onChange={onChildrenChange}
+                                className="w-full p-2 bg-gray-700 rounded-md focus:outline-none"
+                            >
+                                {[0, 1, 2, 3, 4].map(n => <option key={n} value={n}>{n}</option>)}
                             </select>
                         </div>
                     </div>
