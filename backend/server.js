@@ -8,7 +8,6 @@ require('dotenv').config();
 
 const prisma = require('./lib/prisma');
 const bookingRoutes = require('./routes/bookings');
-const roomRoutes = require('./routes/rooms');
 const adminRoutes = require('./routes/admin');
 const contactRoutes = require('./routes/contact');
 const reviewRoutes = require('./routes/reviews');
@@ -114,7 +113,6 @@ app.get('/health', async (req, res) => {
 
 // API Routes
 app.use('/api/bookings', bookingRoutes);
-app.use('/api/rooms', roomRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/contact', contactRoutes);
 app.use('/api/reviews', reviewRoutes);
