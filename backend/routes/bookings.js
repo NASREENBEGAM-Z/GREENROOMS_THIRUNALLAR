@@ -30,6 +30,7 @@ router.post('/', [
     body('totalPrice').isFloat({ min: 0 }).withMessage('Valid price is required')
 ], async (req, res) => {
     try {
+        console.log('Booking request body:', req.body);
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(400).json({ errors: errors.array() });
@@ -122,7 +123,7 @@ router.post('/', [
         });
     } catch (error) {
         console.error('Error creating booking:', error);
-        res.status(500).json({ message: 'Failed to create booking' });
+        res.status(500).json({ message: 'Failed to create booking', error: error.message });
     }
 });
 
