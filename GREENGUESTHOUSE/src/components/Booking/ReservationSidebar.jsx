@@ -1,12 +1,14 @@
 import React from 'react';
 
 const ReservationSidebar = ({ bookingDetails, onchangeRoom, currentStep, onDateChange, onAdultsChange, onChildrenChange }) => {
-    const { checkIn, checkOut, adults, children, room, rooms, totalPrice } = bookingDetails;
+    const { checkIn, checkOut, adults, children, room, rooms } = bookingDetails;
     const today = new Date().toISOString().split('T')[0];
 
-    // The screenshot shows a static number of nights initially.
-    // Let's make it dynamic if dates are available, otherwise default to 1.
+    // Calculate number of nights
     const nights = checkIn && checkOut ? Math.round((new Date(checkOut) - new Date(checkIn)) / (1000 * 60 * 60 * 24)) : 1;
+    // Calculate total price
+    const roomPrice = room && room.price ? room.price : 0;
+    const totalPrice = roomPrice * nights;
 
     return (
         <div className="bg-gray-800 p-6 rounded-lg shadow-lg text-white">
@@ -32,14 +34,13 @@ const ReservationSidebar = ({ bookingDetails, onchangeRoom, currentStep, onDateC
                 </div>
             )}
 
-
             {/* Price breakdown */}
             {currentStep === 3 ? (
                 <div className="space-y-4 border-t border-gray-700 pt-4">
                     <h4 className="text-lg font-bold">Price Breakdown</h4>
                     <div className="flex justify-between">
                         <span>Room: {room.name}</span>
-                        <span>₹{room.price.toLocaleString()}</span>
+                        <span>₹{roomPrice.toLocaleString()} x {nights} night{nights > 1 ? 's' : ''}</span>
                     </div>
                     <div className="flex justify-between">
                         <span>Adult: {adults}</span>
