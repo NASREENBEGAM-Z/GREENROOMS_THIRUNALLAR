@@ -9,6 +9,7 @@ import RoomList from '../components/Booking/RoomList';
 import UserDetailsForm from '../components/Booking/UserDetailsForm';
 import Confirmation from '../components/Booking/Confirmation';
 import RoomSelectionComplete from '../components/Booking/RoomSelectionComplete';
+import OtpDemo from '../components/OtpDemo';
 
 const BookingPage = () => {
     const location = useLocation();
@@ -155,6 +156,7 @@ const BookingPage = () => {
         <div className="flex flex-col min-h-screen bg-gray-900 text-white">
             <Header />
             <main className="flex-grow container mx-auto px-4 py-8 pt-24">
+                <OtpDemo />
                 <h1 className="text-3xl font-bold text-center mb-8">Booking</h1>
                 <Stepper steps={steps} currentStep={currentStep} />
                 <div className="mt-8 grid lg:grid-cols-3 gap-8">
