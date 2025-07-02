@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
-const ADMIN_EMAIL = 'greenrooms.thirunallar@gmail.com';
-const ADMIN_PASSWORD = 'Thirunallar@2025';
+import axios from 'axios';
 
 export default function AdminLogin() {
     const [email, setEmail] = useState('');
@@ -10,13 +8,20 @@ export default function AdminLogin() {
     const [error, setError] = useState('');
     const navigate = useNavigate();
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault();
-        if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-            localStorage.setItem('admin_logged_in', 'yes');
-            navigate('/admin');
-        } else {
-            setError('Invalid email or password');
+        setError('');
+        try {
+            const res = await axios.post('https://greenrooms-thirunallar.onrender.com/api/admin/login', { email, password });
+            if (res.data && res.data.token) {
+                localStorage.setItem('admin_logged_in', 'yes');
+                localStorage.setItem('admin_token', res.data.token);
+                navigate('/admin');
+            } else {
+                setError('Login failed. Please try again.');
+            }
+        } catch (err) {
+            setError(err.response?.data?.message || 'Invalid email or password');
         }
     }
 
