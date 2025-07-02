@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
@@ -13,6 +13,7 @@ import RoomSelectionComplete from '../components/Booking/RoomSelectionComplete';
 const BookingPage = () => {
     const location = useLocation();
     const queryParams = new URLSearchParams(location.search);
+    const navigate = useNavigate();
 
     const [bookingDetails, setBookingDetails] = useState(() => {
         const today = new Date();
@@ -120,7 +121,8 @@ const BookingPage = () => {
             const response = await axios.post('https://greenrooms-thirunallar.onrender.com/api/bookings', bookingData);
             console.log('Booking successful! Response from server:', response.data);
             setBookingDetails(prev => ({ ...prev, user: formData }));
-            handleNextStep();
+            // Redirect to confirmation page with booking ID
+            navigate(`/confirmation/${response.data.booking.id}`);
         } catch (error) {
             const errorMessage = error.response ? JSON.stringify(error.response.data) : error.message;
             console.error('Booking failed:', errorMessage);
