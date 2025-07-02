@@ -22,7 +22,7 @@ const Stepper = ({ currentStep }) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post('/api/airtable/add-booking', bookingData);
+            const response = await axios.post('https://greenrooms-thirunallar.onrender.com/api/bookings', bookingData);
             console.log('Booking data sent successfully:', response.data);
         } catch (error) {
             console.error('Error sending booking data:', error);

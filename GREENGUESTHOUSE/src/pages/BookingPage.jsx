@@ -117,7 +117,7 @@ const BookingPage = () => {
 
         try {
             // 2. Send the combined data to your backend API endpoint
-            const response = await axios.post('/api/airtable/add-booking', finalBookingData);
+            const response = await axios.post('https://greenrooms-thirunallar.onrender.com/api/bookings', finalBookingData);
 
             console.log('Booking successful! Response from server:', response.data);
 
