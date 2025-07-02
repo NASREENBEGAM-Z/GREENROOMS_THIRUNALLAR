@@ -164,6 +164,12 @@ export default function AdminDashboard() {
     }
   }
 
+  function clearData() {
+    setBookings([]);
+    setUndoStack([]);
+    setRedoStack([]);
+  }
+
   return (
     <div style={{ maxWidth: 1300, margin: '2rem auto', background: '#f8f8f8', color: '#222', padding: 24, borderRadius: 12, fontSize: 18 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
@@ -174,6 +180,7 @@ export default function AdminDashboard() {
           <button onClick={handleRedo} disabled={redoStack.length === 0} style={{ background: redoStack.length === 0 ? '#bdc3c7' : '#2980b9', color: '#fff', border: 'none', padding: '10px 18px', borderRadius: 8, fontSize: 18, cursor: redoStack.length === 0 ? 'not-allowed' : 'pointer', marginRight: 12 }}>Redo</button>
           <button onClick={handleExportCSV} style={{ background: '#2980b9', color: '#fff', border: 'none', padding: '10px 18px', borderRadius: 8, fontSize: 18, cursor: 'pointer', marginRight: 12 }}>Export to CSV</button>
           <button onClick={handleLogout} style={{ background: '#e74c3c', color: '#fff', border: 'none', padding: '10px 18px', borderRadius: 8, fontSize: 18, cursor: 'pointer' }}>Logout</button>
+          <button onClick={clearData} style={{ background: '#e67e22', color: '#fff', border: 'none', padding: '10px 18px', borderRadius: 8, fontSize: 18, cursor: 'pointer', marginRight: 12 }}>Clear Data</button>
         </div>
       </div>
       <div style={{ marginBottom: 16 }}>
@@ -199,7 +206,6 @@ export default function AdminDashboard() {
               <th style={{ padding: 10 }}>Total Price</th>
               <th style={{ padding: 10 }}>Created At</th>
               <th style={{ padding: 10 }}>Formatted Date</th>
-              <th style={{ padding: 10 }}>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -220,10 +226,6 @@ export default function AdminDashboard() {
                 <td style={{ padding: 10 }}>{b.totalPrice}</td>
                 <td style={{ padding: 10 }}>{b.createdAt ? new Date(b.createdAt).toLocaleString() : ''}</td>
                 <td style={{ padding: 10 }}>{formatDateTime(b.createdAt)}</td>
-                <td style={{ padding: 10 }}>
-                  <button onClick={() => openEdit(b)} style={{ background: '#f39c12', color: '#fff', border: 'none', padding: '8px 12px', borderRadius: 8, fontSize: 14, cursor: 'pointer', marginLeft: 4, marginBottom: 6 }}>Edit</button>
-                  <button onClick={() => openMessage(b)} style={{ background: '#2980b9', color: '#fff', border: 'none', padding: '8px 12px', borderRadius: 8, fontSize: 14, cursor: 'pointer', marginLeft: 4 }}>Send Message</button>
-                </td>
               </tr>
             ))}
           </tbody>
