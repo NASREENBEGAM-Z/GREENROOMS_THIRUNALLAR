@@ -15,6 +15,9 @@ const reviewRoutes = require('./routes/reviews');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Trust the first proxy (for correct client IP detection behind Render, Vercel, etc.)
+app.set('trust proxy', 1);
+
 // Security middleware
 app.use(helmet({
     contentSecurityPolicy: {
