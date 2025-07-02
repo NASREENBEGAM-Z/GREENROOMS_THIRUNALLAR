@@ -41,7 +41,10 @@ app.use('/api/', limiter);
 
 // CORS configuration
 app.use(cors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+    origin: [
+        'https://greenrooms-thirunallar.vercel.app',
+        'http://localhost:3000'
+    ],
     credentials: true
 }));
 
