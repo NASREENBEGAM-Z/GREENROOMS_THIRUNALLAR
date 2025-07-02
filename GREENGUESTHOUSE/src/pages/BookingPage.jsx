@@ -97,7 +97,7 @@ const BookingPage = () => {
 
     const handleUserDetailsSubmit = async (formData) => {
         // Combine user details with booking details (dates, room, price)
-        const finalBookingData = {
+        const bookingData = {
             firstName: formData.firstName,
             lastName: formData.lastName,
             email: formData.email,
@@ -109,12 +109,15 @@ const BookingPage = () => {
             adults: Number(bookingDetails.adults),
             children: Number(bookingDetails.children),
             totalPrice: Number(bookingDetails.totalPrice),
-            room: bookingDetails.room || {},
-            roomId: bookingDetails.room?.id || null
+            room: bookingDetails.room || {}
         };
+        // Only send roomId if it is a valid number
+        if (bookingDetails.room && typeof bookingDetails.room.id === 'number' && !isNaN(bookingDetails.room.id)) {
+            bookingData.roomId = bookingDetails.room.id;
+        }
 
         try {
-            const response = await axios.post('https://greenrooms-thirunallar.onrender.com/api/bookings', finalBookingData);
+            const response = await axios.post('https://greenrooms-thirunallar.onrender.com/api/bookings', bookingData);
             console.log('Booking successful! Response from server:', response.data);
             setBookingDetails(prev => ({ ...prev, user: formData }));
             handleNextStep();
