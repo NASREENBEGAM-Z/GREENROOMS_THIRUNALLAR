@@ -1,0 +1,149 @@
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
+const API_BASE = 'https://greenrooms-thirunallar.onrender.com/api';
+
+function toCSV(rows) {
+  if (!rows.length) return '';
+  const headers = Object.keys(rows[0]);
+  const csvRows = [headers.join(',')];
+  for (const row of rows) {
+    const values = headers.map(h => JSON.stringify(row[h] ?? ''));
+    csvRows.push(values.join(','));
+  }
+  return csvRows.join('\n');
+}
+
+export default function AdminDashboard() {
+  const [bookings, setBookings] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Protect route
+    if (localStorage.getItem('admin_logged_in') !== 'yes') {
+      navigate('/admin-login');
+      return;
+    }
+    fetchBookings();
+  }, []);
+
+  async function fetchBookings() {
+    setLoading(true);
+    setError('');
+    try {
+      const res = await axios.get(`${API_BASE}/bookings`);
+      setBookings(res.data.bookings || []);
+    } catch (err) {
+      setError('Failed to fetch bookings');
+    }
+    setLoading(false);
+  }
+
+  async function confirmBooking(id) {
+    if (!window.confirm('Send confirmation email to customer?')) return;
+    try {
+      await axios.post(`${API_BASE}/bookings/${id}/confirm`);
+      alert('Confirmation sent!');
+      fetchBookings();
+    } catch (err) {
+      alert('Failed to send confirmation');
+    }
+  }
+
+  function handleLogout() {
+    localStorage.removeItem('admin_logged_in');
+    navigate('/admin-login');
+  }
+
+  function handleExportCSV() {
+    const exportRows = bookings.map(b => ({
+      ID: b.id,
+      Name: `${b.firstName} ${b.lastName}`,
+      Email: b.email,
+      Phone: b.phone,
+      Address: b.address,
+      Note: b.note,
+      Room: b.roomData?.name || b.room?.name || '-',
+      CheckIn: b.checkIn?.slice(0, 10),
+      CheckOut: b.checkOut?.slice(0, 10),
+      Adults: b.adults,
+      Children: b.children,
+      Status: b.status,
+      TotalPrice: b.totalPrice
+    }));
+    const csv = toCSV(exportRows);
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'bookings.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  return (
+    <div style={{ maxWidth: 1200, margin: '2rem auto', background: '#f8f8f8', color: '#222', padding: 24, borderRadius: 12, fontSize: 18 }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
+        <h2 style={{ fontSize: 32 }}>Admin Dashboard - Bookings</h2>
+        <div>
+          <button onClick={handleExportCSV} style={{ background: '#2980b9', color: '#fff', border: 'none', padding: '10px 18px', borderRadius: 8, fontSize: 18, cursor: 'pointer', marginRight: 12 }}>Export to CSV</button>
+          <button onClick={handleLogout} style={{ background: '#e74c3c', color: '#fff', border: 'none', padding: '10px 18px', borderRadius: 8, fontSize: 18, cursor: 'pointer' }}>Logout</button>
+        </div>
+      </div>
+      {error && <div style={{ color: 'red', marginBottom: 16 }}>{error}</div>}
+      {loading ? <p>Loading...</p> : (
+        <table style={{ width: '100%', background: '#fff', color: '#222', borderCollapse: 'collapse', fontSize: 16 }}>
+          <thead>
+            <tr style={{ background: '#e0e0e0' }}>
+              <th style={{ padding: 10 }}>ID</th>
+              <th style={{ padding: 10 }}>Name</th>
+              <th style={{ padding: 10 }}>Email</th>
+              <th style={{ padding: 10 }}>Phone</th>
+              <th style={{ padding: 10 }}>Address</th>
+              <th style={{ padding: 10 }}>Note</th>
+              <th style={{ padding: 10 }}>Room</th>
+              <th style={{ padding: 10 }}>Check-in</th>
+              <th style={{ padding: 10 }}>Check-out</th>
+              <th style={{ padding: 10 }}>Adults</th>
+              <th style={{ padding: 10 }}>Children</th>
+              <th style={{ padding: 10 }}>Status</th>
+              <th style={{ padding: 10 }}>Total Price</th>
+              <th style={{ padding: 10 }}>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {bookings.map(b => (
+              <tr key={b.id} style={{ borderBottom: '1px solid #eee' }}>
+                <td style={{ padding: 10 }}>{b.id}</td>
+                <td style={{ padding: 10 }}>{b.firstName} {b.lastName}</td>
+                <td style={{ padding: 10 }}>{b.email}</td>
+                <td style={{ padding: 10 }}>{b.phone}</td>
+                <td style={{ padding: 10 }}>{b.address}</td>
+                <td style={{ padding: 10 }}>{b.note}</td>
+                <td style={{ padding: 10 }}>{b.roomData?.name || b.room?.name || '-'}</td>
+                <td style={{ padding: 10 }}>{b.checkIn?.slice(0, 10)}</td>
+                <td style={{ padding: 10 }}>{b.checkOut?.slice(0, 10)}</td>
+                <td style={{ padding: 10 }}>{b.adults}</td>
+                <td style={{ padding: 10 }}>{b.children}</td>
+                <td style={{ padding: 10 }}>{b.status}</td>
+                <td style={{ padding: 10 }}>{b.totalPrice}</td>
+                <td style={{ padding: 10 }}>
+                  {b.status !== 'confirmed' ? (
+                    <button onClick={() => confirmBooking(b.id)} style={{ background: '#2ecc40', color: '#fff', border: 'none', padding: '10px 16px', borderRadius: 8, fontSize: 16, cursor: 'pointer' }}>
+                      Send Confirmation
+                    </button>
+                  ) : (
+                    <span style={{ color: 'green', fontWeight: 'bold' }}>Confirmed</span>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+    </div>
+  );
+} 

@@ -295,4 +295,45 @@ router.delete('/:id', async (req, res) => {
     }
 });
 
+// Confirm booking and send confirmation email
+router.post('/:id/confirm', async (req, res) => {
+    try {
+        const booking = await prisma.booking.update({
+            where: { id: Number(req.params.id) },
+            data: { status: 'confirmed' },
+            include: { room: true }
+        });
+        // Send confirmation email
+        try {
+            await transporter.sendMail({
+                from: `"Green Guest House" <${process.env.EMAIL_USER}>`,
+                to: booking.email,
+                subject: 'Booking Confirmed - Green Guest House',
+                html: `
+          <h2>Booking Confirmed</h2>
+          <p>Dear ${booking.firstName} ${booking.lastName},</p>
+          <p>Your booking has been <b>confirmed</b>!</p>
+          <h3>Booking Details:</h3>
+          <ul>
+            <li><strong>Booking ID:</strong> #${booking.id}</li>
+            <li><strong>Room:</strong> ${booking.roomData?.name || booking.room?.name || '-'}</li>
+            <li><strong>Check-in:</strong> ${new Date(booking.checkIn).toLocaleDateString()}</li>
+            <li><strong>Check-out:</strong> ${new Date(booking.checkOut).toLocaleDateString()}</li>
+            <li><strong>Guests:</strong> ${booking.adults} adults, ${booking.children} children</li>
+            <li><strong>Total Amount:</strong> ₹${booking.totalPrice}</li>
+          </ul>
+          <p>We look forward to welcoming you!</p>
+          <p>Best regards,<br>Green Guest House Team</p>
+        `
+            });
+        } catch (emailError) {
+            console.error('Failed to send confirmation email:', emailError);
+        }
+        res.json({ message: 'Booking confirmed and email sent', booking });
+    } catch (error) {
+        console.error('Error confirming booking:', error);
+        res.status(500).json({ message: 'Failed to confirm booking' });
+    }
+});
+
 module.exports = router; 
