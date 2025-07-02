@@ -30,6 +30,8 @@ export default function AdminDashboard() {
   const [editNote, setEditNote] = useState('');
   const [messageModal, setMessageModal] = useState(null);
   const [customMessage, setCustomMessage] = useState('');
+  const [undoStack, setUndoStack] = useState([]);
+  const [redoStack, setRedoStack] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -51,6 +53,28 @@ export default function AdminDashboard() {
       setError('Failed to fetch bookings');
     }
     setLoading(false);
+  }
+
+  function handleReset() {
+    fetchBookings();
+    setUndoStack([]);
+    setRedoStack([]);
+  }
+
+  function handleUndo() {
+    if (undoStack.length === 0) return;
+    const prev = undoStack[undoStack.length - 1];
+    setRedoStack(r => [...r, bookings]);
+    setBookings(prev);
+    setUndoStack(u => u.slice(0, -1));
+  }
+
+  function handleRedo() {
+    if (redoStack.length === 0) return;
+    const next = redoStack[redoStack.length - 1];
+    setUndoStack(u => [...u, bookings]);
+    setBookings(next);
+    setRedoStack(r => r.slice(0, -1));
   }
 
   async function confirmBooking(id) {
@@ -116,6 +140,8 @@ export default function AdminDashboard() {
   }
   async function saveEdit() {
     try {
+      setUndoStack(u => [...u, bookings]);
+      setRedoStack([]);
       await axios.put(`${API_BASE}/bookings/${editBooking.id}`, { note: editNote });
       setEditBooking(null);
       fetchBookings();
@@ -143,6 +169,9 @@ export default function AdminDashboard() {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <h2 style={{ fontSize: 32 }}>Admin Dashboard - Bookings</h2>
         <div>
+          <button onClick={handleReset} style={{ background: '#7f8c8d', color: '#fff', border: 'none', padding: '10px 18px', borderRadius: 8, fontSize: 18, cursor: 'pointer', marginRight: 12 }}>Reset</button>
+          <button onClick={handleUndo} disabled={undoStack.length === 0} style={{ background: undoStack.length === 0 ? '#bdc3c7' : '#f39c12', color: '#fff', border: 'none', padding: '10px 18px', borderRadius: 8, fontSize: 18, cursor: undoStack.length === 0 ? 'not-allowed' : 'pointer', marginRight: 12 }}>Undo</button>
+          <button onClick={handleRedo} disabled={redoStack.length === 0} style={{ background: redoStack.length === 0 ? '#bdc3c7' : '#2980b9', color: '#fff', border: 'none', padding: '10px 18px', borderRadius: 8, fontSize: 18, cursor: redoStack.length === 0 ? 'not-allowed' : 'pointer', marginRight: 12 }}>Redo</button>
           <button onClick={handleExportCSV} style={{ background: '#2980b9', color: '#fff', border: 'none', padding: '10px 18px', borderRadius: 8, fontSize: 18, cursor: 'pointer', marginRight: 12 }}>Export to CSV</button>
           <button onClick={handleLogout} style={{ background: '#e74c3c', color: '#fff', border: 'none', padding: '10px 18px', borderRadius: 8, fontSize: 18, cursor: 'pointer' }}>Logout</button>
         </div>
@@ -192,7 +221,6 @@ export default function AdminDashboard() {
                 <td style={{ padding: 10 }}>{b.createdAt ? new Date(b.createdAt).toLocaleString() : ''}</td>
                 <td style={{ padding: 10 }}>{formatDateTime(b.createdAt)}</td>
                 <td style={{ padding: 10 }}>
-                  <button onClick={() => confirmBooking(b.id)} style={{ background: '#2ecc40', color: '#fff', border: 'none', padding: '10px 16px', borderRadius: 8, fontSize: 16, cursor: 'pointer', marginBottom: 6 }}>Send Confirmation</button>
                   <button onClick={() => openEdit(b)} style={{ background: '#f39c12', color: '#fff', border: 'none', padding: '8px 12px', borderRadius: 8, fontSize: 14, cursor: 'pointer', marginLeft: 4, marginBottom: 6 }}>Edit</button>
                   <button onClick={() => openMessage(b)} style={{ background: '#2980b9', color: '#fff', border: 'none', padding: '8px 12px', borderRadius: 8, fontSize: 14, cursor: 'pointer', marginLeft: 4 }}>Send Message</button>
                 </td>

@@ -67,6 +67,7 @@ const BookingPage = () => {
     });
 
     const [currentStep, setCurrentStep] = useState(1);
+    const [showSuccess, setShowSuccess] = useState(false);
 
     const handleDateChange = (e) => {
         const { name, value } = e.target;
@@ -121,8 +122,7 @@ const BookingPage = () => {
             const response = await axios.post('https://greenrooms-thirunallar.onrender.com/api/bookings', bookingData);
             console.log('Booking successful! Response from server:', response.data);
             setBookingDetails(prev => ({ ...prev, user: formData }));
-            // Redirect to confirmation page with booking ID
-            navigate(`/confirmation/${response.data.booking.id}`);
+            setShowSuccess(true); // Show success message
         } catch (error) {
             const errorMessage = error.response ? JSON.stringify(error.response.data) : error.message;
             console.error('Booking failed:', errorMessage);
@@ -167,15 +167,17 @@ const BookingPage = () => {
                         />
                     </div>
                     <div className="lg:col-span-2">
-                        {currentStep === 1 && <RoomList onSelectRoom={handleRoomSelect} />}
-                        {currentStep === 2 && <RoomSelectionComplete onNext={handleNextStep} />}
-                        {currentStep === 3 && <UserDetailsForm onSubmit={handleUserDetailsSubmit} onBack={handlePrevStep} />}
-                        {currentStep === 4 && (
-                            <Confirmation
-                                bookingDetails={bookingDetails}
-                                onBack={handlePrevStep}
-                                summary={getBookingSummary(bookingDetails)}
-                            />
+                        {showSuccess && (
+                            <div className="bg-green-100 text-green-900 p-6 rounded-lg shadow-lg text-center text-2xl font-bold animate-fade-in">
+                                Booking Successful! You will receive confirmation soon via WhatsApp or SMS.
+                            </div>
+                        )}
+                        {!showSuccess && (
+                            <>
+                                {currentStep === 1 && <RoomList onSelectRoom={handleRoomSelect} />}
+                                {currentStep === 2 && <RoomSelectionComplete onNext={handleNextStep} />}
+                                {currentStep === 3 && <UserDetailsForm onSubmit={handleUserDetailsSubmit} onBack={handlePrevStep} />}
+                            </>
                         )}
                     </div>
                 </div>
