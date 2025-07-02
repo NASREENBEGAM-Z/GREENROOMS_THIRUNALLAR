@@ -96,35 +96,28 @@ const BookingPage = () => {
     };
 
     const handleUserDetailsSubmit = async (formData) => {
-        // This function runs when the user submits their details
-
-        // 1. Combine user details with booking details (dates, room, price)
+        // Combine user details with booking details (dates, room, price)
         const finalBookingData = {
-            "First Name": formData.firstName,
-            "Last Name": formData.lastName,
-            "Email": formData.email,
-            "Phone Number": formData.phone,
-            "Address": formData.address,
-            "Special Note": formData.note,
-            "Check-in Date": bookingDetails.checkIn,
-            "Check-out Date": bookingDetails.checkOut,
-            "Number of Adults": bookingDetails.adults,
-            "Number of Children": bookingDetails.children,
-            "Room Type": bookingDetails.room.name,
-            "Total Price": bookingDetails.totalPrice,
-            "Booking Status": "Pending" // Default status
+            firstName: formData.firstName,
+            lastName: formData.lastName,
+            email: formData.email,
+            phone: formData.phone,
+            address: formData.address,
+            note: formData.note,
+            checkIn: bookingDetails.checkIn,
+            checkOut: bookingDetails.checkOut,
+            adults: Number(bookingDetails.adults),
+            children: Number(bookingDetails.children),
+            totalPrice: Number(bookingDetails.totalPrice),
+            room: bookingDetails.room || {},
+            roomId: bookingDetails.room?.id || null
         };
 
         try {
-            // 2. Send the combined data to your backend API endpoint
             const response = await axios.post('https://greenrooms-thirunallar.onrender.com/api/bookings', finalBookingData);
-
             console.log('Booking successful! Response from server:', response.data);
-
-            // 3. Move to the final confirmation step
             setBookingDetails(prev => ({ ...prev, user: formData }));
             handleNextStep();
-
         } catch (error) {
             const errorMessage = error.response ? JSON.stringify(error.response.data) : error.message;
             console.error('Booking failed:', errorMessage);
