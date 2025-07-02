@@ -174,13 +174,11 @@ export default function AdminDashboard() {
     <div style={{ maxWidth: 1300, margin: '2rem auto', background: '#f8f8f8', color: '#222', padding: 24, borderRadius: 12, fontSize: 18 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
         <h2 style={{ fontSize: 32 }}>Admin Dashboard - Bookings</h2>
-        <div>
-          <button onClick={handleReset} style={{ background: '#7f8c8d', color: '#fff', border: 'none', padding: '10px 18px', borderRadius: 8, fontSize: 18, cursor: 'pointer', marginRight: 12 }}>Reset</button>
-          <button onClick={handleUndo} disabled={undoStack.length === 0} style={{ background: undoStack.length === 0 ? '#bdc3c7' : '#f39c12', color: '#fff', border: 'none', padding: '10px 18px', borderRadius: 8, fontSize: 18, cursor: undoStack.length === 0 ? 'not-allowed' : 'pointer', marginRight: 12 }}>Undo</button>
-          <button onClick={handleRedo} disabled={redoStack.length === 0} style={{ background: redoStack.length === 0 ? '#bdc3c7' : '#2980b9', color: '#fff', border: 'none', padding: '10px 18px', borderRadius: 8, fontSize: 18, cursor: redoStack.length === 0 ? 'not-allowed' : 'pointer', marginRight: 12 }}>Redo</button>
-          <button onClick={handleExportCSV} style={{ background: '#2980b9', color: '#fff', border: 'none', padding: '10px 18px', borderRadius: 8, fontSize: 18, cursor: 'pointer', marginRight: 12 }}>Export to CSV</button>
+        <div style={{ display: 'flex', gap: 16 }}>
+          <button onClick={handleReset} style={{ background: '#7f8c8d', color: '#fff', border: 'none', padding: '10px 18px', borderRadius: 8, fontSize: 18, cursor: 'pointer' }}>Reset</button>
+          <button onClick={clearData} style={{ background: '#e67e22', color: '#fff', border: 'none', padding: '10px 18px', borderRadius: 8, fontSize: 18, cursor: 'pointer' }}>Clear Data</button>
+          <button onClick={handleExportCSV} style={{ background: '#2980b9', color: '#fff', border: 'none', padding: '10px 18px', borderRadius: 8, fontSize: 18, cursor: 'pointer' }}>Export to CSV</button>
           <button onClick={handleLogout} style={{ background: '#e74c3c', color: '#fff', border: 'none', padding: '10px 18px', borderRadius: 8, fontSize: 18, cursor: 'pointer' }}>Logout</button>
-          <button onClick={clearData} style={{ background: '#e67e22', color: '#fff', border: 'none', padding: '10px 18px', borderRadius: 8, fontSize: 18, cursor: 'pointer', marginRight: 12 }}>Clear Data</button>
         </div>
       </div>
       <div style={{ marginBottom: 16 }}>
