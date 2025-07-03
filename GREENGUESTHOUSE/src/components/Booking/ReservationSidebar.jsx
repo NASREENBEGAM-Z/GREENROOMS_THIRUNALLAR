@@ -5,7 +5,13 @@ const ReservationSidebar = ({ bookingDetails, onchangeRoom, currentStep, onDateC
     const today = new Date().toISOString().split('T')[0];
 
     // Calculate number of nights
-    const nights = checkIn && checkOut ? Math.round((new Date(checkOut) - new Date(checkIn)) / (1000 * 60 * 60 * 24)) : 1;
+    let nights = 1;
+    if (checkIn && checkOut) {
+        const checkInDate = new Date(checkIn);
+        const checkOutDate = new Date(checkOut);
+        // If same day, count as 1 night, else calculate difference
+        nights = Math.max(1, Math.round((checkOutDate - checkInDate) / (1000 * 60 * 60 * 24)));
+    }
     // Calculate total price
     const roomPrice = room && room.price ? room.price : 0;
     const totalPrice = roomPrice * nights;
@@ -34,7 +40,7 @@ const ReservationSidebar = ({ bookingDetails, onchangeRoom, currentStep, onDateC
                 </div>
             )}
 
-            {/* Price breakdown */}
+            {/* Price breakdown (step 3 only) */}
             {currentStep === 3 ? (
                 <div className="space-y-4 border-t border-gray-700 pt-4">
                     <h4 className="text-lg font-bold">Price Breakdown</h4>
@@ -45,10 +51,6 @@ const ReservationSidebar = ({ bookingDetails, onchangeRoom, currentStep, onDateC
                     <div className="flex justify-between">
                         <span>Adult: {adults}</span>
                         <span>Children: {children}</span>
-                    </div>
-                    <div className="flex justify-between font-bold text-xl border-t border-gray-700 pt-4 mt-4">
-                        <span>Grand Total</span>
-                        <span>₹{totalPrice.toLocaleString()}</span>
                     </div>
                 </div>
             ) : (
@@ -94,8 +96,8 @@ const ReservationSidebar = ({ bookingDetails, onchangeRoom, currentStep, onDateC
                     <div className="grid grid-cols-2 gap-4">
                         <div>
                             <label className="block text-sm font-semibold text-gray-400">Adults</label>
-                            <select 
-                                value={adults} 
+                            <select
+                                value={adults}
                                 onChange={onAdultsChange}
                                 className="w-full p-2 bg-gray-700 rounded-md focus:outline-none"
                             >
@@ -104,8 +106,8 @@ const ReservationSidebar = ({ bookingDetails, onchangeRoom, currentStep, onDateC
                         </div>
                         <div>
                             <label className="block text-sm font-semibold text-gray-400">Children</label>
-                            <select 
-                                value={children} 
+                            <select
+                                value={children}
                                 onChange={onChildrenChange}
                                 className="w-full p-2 bg-gray-700 rounded-md focus:outline-none"
                             >
@@ -115,6 +117,11 @@ const ReservationSidebar = ({ bookingDetails, onchangeRoom, currentStep, onDateC
                     </div>
                 </div>
             )}
+            {/* Grand Total always visible */}
+            <div className="flex justify-between font-bold text-xl border-t border-gray-700 pt-4 mt-4">
+                <span>Grand Total</span>
+                <span>₹{totalPrice.toLocaleString()}</span>
+            </div>
         </div>
     );
 };
