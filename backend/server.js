@@ -42,13 +42,11 @@ const limiter = rateLimit({
 });
 app.use('/api/', limiter);
 
-// CORS configuration
+// Allow only your Vercel frontend
+const allowedOrigins = ['https://greenrooms-thirunallar.vercel.app'];
 app.use(cors({
-    origin: [
-        'https://greenrooms-thirunallar.vercel.app',
-        'http://localhost:3000'
-    ],
-    credentials: true
+    origin: allowedOrigins,
+    credentials: true, // if you use cookies or authentication
 }));
 
 // Body parsing middleware
