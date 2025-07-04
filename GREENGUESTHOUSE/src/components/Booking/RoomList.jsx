@@ -14,7 +14,7 @@ const RoomList = ({ onSelectRoom }) => {
             bed: 2,
             max: 6,
             view: "Street (Nala Theertham)",
-            price: 1799,
+            price: 2000,
             image: "https://ik.imagekit.io/2rlgs5ipz/GREENGUESTHOUSE/doublecot_ac?updatedAt=1750576914374"
         },
         {
@@ -32,7 +32,7 @@ const RoomList = ({ onSelectRoom }) => {
             bed: 1,
             max: '3 adults + 2 children',
             view: "Garden View",
-            price: 999,
+            price: 1299,
             image: "https://ik.imagekit.io/2rlgs5ipz/GREENGUESTHOUSE/DOUBLECOT?updatedAt=1750576330117"
         },
         {
